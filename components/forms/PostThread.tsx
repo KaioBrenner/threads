@@ -4,6 +4,7 @@ import * as z from "zod";
 import { Form } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useOrganization } from "@clerk/nextjs";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -39,6 +40,7 @@ interface Props {
 function PostThread({ userId }: { userId: string }) {
   const router = useRouter();
   const pathname = usePathname();
+  const {organization} = useOrganization();
 
   const form = useForm({
     resolver: zodResolver(ThreadValidation),
@@ -49,15 +51,16 @@ function PostThread({ userId }: { userId: string }) {
   });
 
   const onSubmit = async (values: z.infer<typeof ThreadValidation>) => {
+    console.log("Org Id: ", organization)
     await createThread({
       text: values.thread,
       author: userId,
-      communityId: null,
-      path: pathname
-    })
+      communityId: organization ? organization.id : null,
+      path: pathname,
+    });
 
-    router.push("/")
-  }
+    router.push("/");
+  };
 
   return (
     <Form {...form}>
@@ -85,9 +88,8 @@ function PostThread({ userId }: { userId: string }) {
           )}
         />
 
-
         <Button type="submit" className="bg-primary-500">
-            Post Thread
+          Post Thread
         </Button>
       </form>
     </Form>
