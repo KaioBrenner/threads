@@ -1,7 +1,6 @@
 import Image from "next/image";
 import { currentUser } from "@clerk/nextjs";
 import { communityTabs } from "@/constants";
-import { redirect } from "next/navigation";
 
 import ProfileHeader from "@/components/shared/ProfileHeader";
 import ThreadsTab from "@/components/shared/ThreadsTab";

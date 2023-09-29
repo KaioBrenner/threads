@@ -4,7 +4,6 @@ import Image from "next/image";
 import { dark } from "@clerk/themes";
 
 function Topbar() {
-  const isUserLoggedIn = true;
 
   return (
     <nav className="topbar">
